@@ -11,30 +11,18 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./back-end/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
   backend:
-    build:
-      context: ./back-end
+    build: .
     environment:
       DATABASE_URL: postgres://user:password@postgres:5432/tododb
     ports:
       - "3001:3001"
     depends_on:
       - postgres
-    volumes:
-      - ./back-end:/app
     command: ["npx", "nodemon", "src/server.ts"]
 
-  frontend:
-    build:
-      context: ./front-end
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    volumes:
-      - ./front-end:/app
 
 volumes:
   postgres_data:
