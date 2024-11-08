@@ -48,4 +48,16 @@ describe('Duty Routes', () => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(updatedDuty);
     });
+
+    it('should remove an existing duty in DELETE /duties/:id endpoint', async () => {
+        const removedDuty = { id: '1', name: 'Updated Duty' };
+        mockQuery.mockResolvedValue({ rows: [removedDuty] });
+
+        const response = await request(app)
+            .delete('/duties/1')
+            .send({ name: 'Removed Duty' });
+
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(true);
+    });
 });

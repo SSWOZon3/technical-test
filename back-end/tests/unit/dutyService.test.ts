@@ -43,4 +43,16 @@ describe('Duty Service', () => {
             ['Random name', '1']
         );
     });
+
+    it('should remove the duty and return it (removeDuty)', async () => {
+        const removedDuty: Duty = { id: '1', name: 'Random name' };
+        mockQuery.mockResolvedValue({ rows: [removedDuty] });
+
+        const result = await dutyService.removeDuty('1');
+        expect(result).toEqual(removedDuty);
+        expect(mockQuery).toHaveBeenCalledWith(
+            'DELETE FROM duties WHERE id = $1 RETURNING *',
+            ['1']
+        );
+    });
 });

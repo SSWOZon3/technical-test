@@ -15,3 +15,8 @@ export const updateDuty = async (id: string, name: string): Promise<Duty> => {
     const res = await pool.query('UPDATE duties SET name = $1 WHERE id = $2 RETURNING *', [name, id]);
     return res.rows[0];
 };
+
+export const removeDuty = async (id: string): Promise<Duty> => {
+    const res = await pool.query('DELETE FROM duties WHERE id = $1 RETURNING *', [id]);
+    return res.rows[0];
+};
